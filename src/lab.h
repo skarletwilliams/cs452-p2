@@ -1,7 +1,9 @@
 #ifndef LAB_H
 #define LAB_H
+#include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <pthread.h>
 
 #ifdef __cplusplus
 extern "C"
@@ -13,11 +15,18 @@ extern "C"
      */
     typedef struct queue
     {
+      //Ensure only one thread can alter the queue at a time
+      pthread_mutex_t lock;        
+      //Conditions for not-empty(can dequeue) and not-full(can enqueue) queue's
+      pthread_cond_t not_empty;
+      pthread_cond_t not_full; 
+
       int capacity;
       int numItems;
       int frontOfQueue;
       int rearOfQueue;
       bool shutdown;
+
       void * queue[];
     } *queue_t;
 
