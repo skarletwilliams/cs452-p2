@@ -11,7 +11,15 @@ extern "C"
     /**
      * @brief opaque type definition for a queue
      */
-    typedef struct queue *queue_t;
+    typedef struct queue
+    {
+      int capacity;
+      int numItems;
+      int frontOfQueue;
+      int rearOfQueue;
+      bool shutdown;
+      void * queue[];
+    } *queue_t;
 
     /**
      * @brief Initialize a new queue
